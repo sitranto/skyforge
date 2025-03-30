@@ -1,0 +1,7 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0a0a0a;
+    padding: 1rem;
+}
