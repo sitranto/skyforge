@@ -1,0 +1,11 @@
+{
+  "clouds": [
+
+  ],
+  "users": [
+    {
+      "name": "root",
+      "password": "123"
+    }
+  ]
+}
