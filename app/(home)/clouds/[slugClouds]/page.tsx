@@ -23,58 +23,7 @@ export default function Dashboard() {
 }
 
 const fileStructure = {
-    "/": [
-        {path: "/projects", name: "projects", type: "folder"},
-        {path: "/documents", name: "documents", type: "folder"},
-        {path: "/downloads", name: "downloads", type: "folder"},
-        {path: "/music", name: "music", type: "folder"},
-        {path: "/videos", name: "videos", type: "folder"},
-        {path: "/pictures", name: "pictures", type: "folder"}
-    ],
-    "/projects": [
-        {path: "/projects/battleTanks", name: "battleTanks", type: "folder"},
-        {path: "/projects/test_react", name: "test_react", type: "folder"},
-        {path: "/projects/UE5", name: "UE5", type: "folder"},
-        {path: "/projects/veterani", name: "veterani", type: "folder"},
-        {path: "/projects/gameAI", name: "gameAI", type: "folder"},
-        {path: "/projects/blockchain", name: "blockchain", type: "folder"},
-        {path: "/projects/ML_models", name: "ML_models", type: "folder"}
-    ],
-    "/documents": [
-        {path: "/documents/Алгоритмы.pdf", name: "Алгоритмы.pdf", type: "file"},
-        {path: "/documents/report.docx", name: "report.docx", type: "file"},
-        {path: "/documents/thesis.pdf", name: "thesis.pdf", type: "file"},
-        {path: "/documents/notes.txt", name: "notes.txt", type: "file"},
-        {path: "/documents/todo_list.md", name: "todo_list.md", type: "file"},
-        {path: "/documents/research_paper.docx", name: "research_paper.docx", type: "file"}
-    ],
-    "/downloads": [
-        {path: "/downloads/setup.exe", name: "setup.exe", type: "file"},
-        {path: "/downloads/movie.mp4", name: "movie.mp4", type: "file"},
-        {path: "/downloads/archive.zip", name: "archive.zip", type: "file"}
-    ],
-    "/music": [
-        {path: "/music/song1.mp3", name: "song1.mp3", type: "file"},
-        {path: "/music/song2.mp3", name: "song2.mp3", type: "file"},
-        {path: "/music/album", name: "album", type: "folder"}
-    ],
-    "/music/album": [
-        {path: "/music/album/track1.mp3", name: "track1.mp3", type: "file"},
-        {path: "/music/album/track2.mp3", name: "track2.mp3", type: "file"}
-    ],
-    "/videos": [
-        {path: "/videos/tutorial.mp4", name: "tutorial.mp4", type: "file"},
-        {path: "/videos/vacation.mp4", name: "vacation.mp4", type: "file"}
-    ],
-    "/pictures": [
-        {path: "/pictures/photo1.jpg", name: "photo1.jpg", type: "file"},
-        {path: "/pictures/photo2.png", name: "photo2.png", type: "file"},
-        {path: "/pictures/screenshots", name: "screenshots", type: "folder"}
-    ],
-    "/pictures/screenshots": [
-        {path: "/pictures/screenshots/screen1.png", name: "screen1.png", type: "file"},
-        {path: "/pictures/screenshots/screen2.png", name: "screen2.png", type: "file"}
-    ]
+    
 };
 
 
