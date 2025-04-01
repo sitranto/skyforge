@@ -10,7 +10,7 @@ export default function HomeLayout({
         <div>
             <Navbar/>
             <div className="flex items-center">
-                <div className="border-1 border-indigo-600 border-solid w-full"/>
+                <div className="border-2 border-indigo-600 border-solid w-full"/>
             </div>
             <div className="pageContainer">
                 {children}

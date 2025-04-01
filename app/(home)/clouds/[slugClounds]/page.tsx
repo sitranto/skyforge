@@ -15,7 +15,8 @@ export default function Dashboard() {
             <div className="flex-1 flex items-center justify-center p-6">
                 <Sidebar currentPath={currentPath} setCurrentPath={setCurrentPath} expandedFolders={expandedFolders}
                          toggleFolder={toggleFolder}/>
-                <FileViewer currentPath={currentPath} viewMode={viewMode} setViewMode={setViewMode} setCurrentPath={setCurrentPath}/>
+                <FileViewer currentPath={currentPath} viewMode={viewMode} setViewMode={setViewMode}
+                            setCurrentPath={setCurrentPath}/>
             </div>
         </div>
     );
@@ -81,7 +82,7 @@ function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
     const parentPath = currentPath === "/" ? "/" : currentPath.substring(0, currentPath.lastIndexOf("/")) || "/";
 
     return (
-        <aside className="w-80 h-3/5 overflow-hidden rounded-l-2xl border-4 border-purple-600 border-r-0 flex flex-col p-2">
+        <aside className="w-80 h-3/5 overflow-hidden rounded-l-2xl border-4 border-indigo-600 border-r-0 flex flex-col p-2">
             <div className="p-6 sticky top-0 z-10">
                 <h2 className="text-lg font-semibold">Мои файлы и папки</h2>
                 <button
@@ -167,7 +168,7 @@ function FileItem({ file, setCurrentPath, expandedFolders, toggleFolder }) {
 function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
     const files = fileStructure[currentPath] || [];
     return (
-        <div className="w-3/5 h-3/5 rounded-r-2xl shadow-xl p-6 border-4 border-purple-600">
+        <div className="w-3/5 h-3/5 rounded-r-2xl shadow-xl p-6 border-4 border-indigo-600">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold">{currentPath}</h2>
                 <div className="flex gap-3">
