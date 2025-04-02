@@ -34,8 +34,14 @@ class FileUtil {
                     continue;
                 }
                 const stats = fs.statSync(fullPath);
+                let filePath
+                if (pathName == "/") {
+                    filePath = pathName + file
+                } else {
+                    filePath = pathName + "/" + file
+                }
                 const dto: any = {
-                    path: fullPath,
+                    path: filePath,
                     name: file,
                     type: stats.isDirectory() ? 'folder' : 'file'
                 };
