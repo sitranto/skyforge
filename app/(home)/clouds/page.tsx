@@ -1,4 +1,4 @@
-//import http from "@/app/actions/http"
+import http from "@/app/actions/http"
 import Link from "next/link";
 
 export default function CloudPage() {
@@ -14,15 +14,7 @@ export default function CloudPage() {
     )
 }
 
-//const testObject = await http.getAllClouds()
-const testObject = [
-    {
-        name: "Cloud",
-    },
-    {
-        name: "Skyforge",
-    }
-]
+const testObject = await http.getAllClouds()
 
 const CloudList = (data) => {
     const listItems = data.map(item =>

@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import {Folder, FileText, List, Grid, ArrowLeft, ChevronDown, ChevronRight} from "lucide-react";
+import http from "@/app/actions/http";
 
 export default function Dashboard() {
     const [viewMode, setViewMode] = useState("grid");
@@ -22,9 +23,7 @@ export default function Dashboard() {
     );
 }
 
-const fileStructure = {
-    
-};
+const fileStructure = await http.getCloudData("test1")
 
 
 function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
