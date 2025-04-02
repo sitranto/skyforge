@@ -1,6 +1,6 @@
-import fileUtil from "../utils/fileUtil.js";
+import fileUtil from "../utils/fileUtil.js"
 
-class CloudService {
+export default class CloudService {
     private static readonly _filePath: string = "../config.json"
 
     public getAllClouds = async () => {
@@ -42,5 +42,3 @@ class CloudService {
         return "Nothing found"
     }
 }
-
-export default new CloudService();

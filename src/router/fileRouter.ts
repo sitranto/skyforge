@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import fileController from "../controller/fileController.js";
+import FileController from "../controller/fileController.js"
 
 const fileRouter = Router()
+const fileController = new FileController()
 
 fileRouter.get('/:name/files', fileController.getAllFiles)
 

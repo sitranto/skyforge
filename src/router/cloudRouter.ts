@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import cloudController from "../controller/cloudController.js"
+import CloudController from "../controller/cloudController.js"
 
 const cloudRouter = Router()
+const cloudController = new CloudController()
 
 cloudRouter.get('/', cloudController.getAllClouds)
 

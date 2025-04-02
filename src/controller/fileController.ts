@@ -1,20 +1,22 @@
-import fileService from "../service/fileService.js"
+import FileService from "../service/fileService.js"
 
-class FileController {
+export default class FileController {
+    private static readonly fileService = new FileService()
+
+    // Получение структуры всех файлов
     public async getAllFiles(req: any, res: any) {
         res.send({
-            files: await fileService.getAllFiles(req.params.name)
+            files: await FileController.fileService.getAllFiles(req.params.name)
         })
     }
 
+    // Загрузка файла в облако
     public async uploadFile(req: any, res: any) {
         const { files } = req
         if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send("No files were uploaded.");
+            return res.status(400).send("No files were uploaded.")
         }
-        await fileService.uploadFile(req.params.name, files.file)
+        await FileController.fileService.uploadFile(req.params.name, files.file)
         res.send("Successfully uploaded file")
     }
 }
-
-export default new FileController()

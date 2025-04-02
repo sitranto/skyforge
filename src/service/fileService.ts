@@ -1,6 +1,6 @@
-import fileUtil from "../utils/fileUtil.js";
+import fileUtil from "../utils/fileUtil.js"
 
-class FileService {
+export default class FileService {
     private static readonly _filePath: string = "../config.json"
 
     public getAllFiles = async (name: string) => {
@@ -29,5 +29,3 @@ class FileService {
         return "Nothing found"
     }
 }
-
-export default new FileService()

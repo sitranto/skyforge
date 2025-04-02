@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import cloudRouter from "./cloudRouter.js"
-import fileRouter from "./fileRouter.js";
+import fileRouter from "./fileRouter.js"
 
 const router = Router()
 
