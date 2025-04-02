@@ -6,27 +6,28 @@ export default class CloudController {
     // Получение списка всех облаков
     public getAllClouds = async (req: any, res: any) => {
         const clouds = await CloudController.cloudService.getAllClouds()
-        res.send(clouds)
+        res.status(clouds.status).send(clouds.message)
     }
 
     // Получение одного облака
     public getOneCloud = async (req: any, res: any) => {
         const cloud = await CloudController.cloudService.getOneCloud(req.params.name)
-        res.send(cloud)
+        res.status(cloud.status).send(cloud.message)
     }
 
     // Создание нового облака
     public setNewCloud = async (req: any, res: any) => {
-        const { body } = req
+        const {body} = req
         const newCloud = await CloudController.cloudService.setNewCloud(
             body.name,
             body.path
         )
-        res.send(newCloud)
+        res.status(newCloud.status).send(newCloud.message)
     }
 
     // Удаление облака
     public deleteCloud = async (req: any, res: any) => {
-        res.send(await CloudController.cloudService.deleteCloud(req.params.name))
+        const response = await CloudController.cloudService.deleteCloud(req.params.name)
+        res.status(response.status).send(response.message)
     }
 }
