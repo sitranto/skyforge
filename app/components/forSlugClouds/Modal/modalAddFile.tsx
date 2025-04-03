@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import http from "@/app/actions/http";
 
 interface ModalProps {
     isOpen: boolean;
@@ -6,7 +7,7 @@ interface ModalProps {
     path: string;
 }
 
-const ModalUploadFile: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
+const ModalUploadFile: React.FC<ModalProps> = ({isOpen, onClose, path}) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState("не завершена");
@@ -19,9 +20,16 @@ const ModalUploadFile: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
         }
     };
 
+    const getCloudName = () => {
+        const url = window.location.href.split("/")
+        return url[url.length - 1]
+    }
+
     const handleUpload = async () => {
         if (!file) return;
         setUploading(true);
+        await http.uploadFile(getCloudName(), file)
+            .finally(() => setProgress("Завершена"))
     };
 
     return (
@@ -39,8 +47,18 @@ const ModalUploadFile: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
                 </div>
 
                 {uploading ? (
-                    <div className="mt-4">
-                        <p>Загрузка: {progress}</p>
+
+                    <div className="flex gap-2 mt-4">
+                        <div className="mt-4">
+                            <p>Загрузка: {progress}</p>
+                        </div>
+                        <div className="mt-2 pl-77">
+                            {progress == "Завершена" ? (
+                                <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={onClose}>
+                                    Закрыть
+                                </button>
+                            ) : (<></>)}
+                        </div>
                     </div>
                 ) : (
                     <div className="flex justify-end gap-2 mt-4">
