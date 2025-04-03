@@ -2,8 +2,10 @@
 
 import {useEffect, useRef, useState} from "react";
 import {Folder, FileText, List, Grid, ArrowLeft, ChevronDown, ChevronRight} from "lucide-react";
-import ContextMenuCreate from "@/app/components/ContextMenuCreate";
-import ContextMenuFile from "@/app/components/ContextMenuFile";
+import ContextMenuCreate from "@/app/components/forSlugClouds/ContextMenu/contextMenuCreate";
+import ContextMenuFile from "@/app/components/forSlugClouds/ContextMenu/contextMenuFile";
+import ModalCreateFolder from "@/app/components/forSlugClouds/Modal/modalCreateFolder";
+import ModalUploadFile from "@/app/components/forSlugClouds/Modal/modalAddFile";
 import http from "@/app/actions/http";
 
 export default function Dashboard() {
@@ -33,8 +35,8 @@ export default function Dashboard() {
     );
 }
 
-const fileStructure = await http.getCloudData("test1")
-/*const fileStructure = {
+//const fileStructure = await http.getCloudData("test1")
+const fileStructure = {
     "/": [
         {path: "/projects", name: "projects", type: "folder"},
         {path: "/documents", name: "documents", type: "folder"},
@@ -87,7 +89,7 @@ const fileStructure = await http.getCloudData("test1")
         {path: "/pictures/screenshots/screen1.png", name: "screen1.png", type: "file"},
         {path: "/pictures/screenshots/screen2.png", name: "screen2.png", type: "file"}
     ]
-};*/
+};
 
 function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
     const parentPath = currentPath === "/" ? "/" : currentPath.substring(0, currentPath.lastIndexOf("/")) || "/";
@@ -100,8 +102,9 @@ function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
                 <button
                     onClick={() => currentPath !== "/" && setCurrentPath(parentPath)}
                     disabled={currentPath === "/"}
-                    className={`flex items-center gap-2 p-2 mb-2 rounded-lg
-                        ${currentPath === "/" ? "cursor-not-allowed" : "bg-gray-700 hover:bg-gray-600"}`}
+                    className={`flex items-center gap-2 p-2 mb-2 rounded-lg ${
+                        currentPath === "/" ? "cursor-not-allowed" : "bg-gray-700 hover:bg-gray-600"
+                    }`}
                 >
                     <ArrowLeft size={20}/> Назад
                 </button>
@@ -176,12 +179,14 @@ function FileItem({file, setCurrentPath, expandedFolders, toggleFolder}) {
     );
 }
 
+//Главный вывод
 function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
     const [menuVisible, setMenuVisible] = useState(false);
     const [fileMenuVisible, setFileMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({x: 0, y: 0});
     const [filePosition, setFilePosition] = useState({x: 0, y: 0});
     const [contextFile, setContextFile] = useState(null); // Для хранения выбранного файла
+    const [modalMenu, setModalMenu] = useState(0);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
     const fileMenuRef = useRef<HTMLUListElement | null>(null);
@@ -255,7 +260,24 @@ function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
                             ref={menuRef}
                             menuPosition={menuPosition}
                             setMenuVisible={setMenuVisible}
-                            currentFolder={currentPath}
+                            setModalMenu={setModalMenu}
+                        />
+                    )}
+
+                    {/*Модальные окна*/}
+                    {modalMenu === 1 && (
+                        <ModalCreateFolder
+                            isOpen={modalMenu === 1}
+                            onClose={() => setModalMenu(0)}
+                            path={currentPath}
+                        />
+                    )}
+
+                    {modalMenu === 2 && (
+                        <ModalUploadFile
+                            isOpen={modalMenu === 2}
+                            onClose={() => setModalMenu(0)}
+                            path={currentPath}
                         />
                     )}
 
@@ -317,6 +339,7 @@ function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
     );
 }
 
+//Вывод элементов сеткой
 function FileThumbnail({file, setCurrentPath, onContextMenu}) {
     return (
         <div
@@ -334,6 +357,7 @@ function FileThumbnail({file, setCurrentPath, onContextMenu}) {
     );
 }
 
+//Вывод элементов списком
 function FileListItem({file, setCurrentPath, onContextMenu}) {
     return (
         <li
