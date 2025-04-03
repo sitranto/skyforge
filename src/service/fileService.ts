@@ -1,5 +1,6 @@
 import fileUtil from "../utils/fileUtil.js"
 import Response from "../model/response.js"
+import CloudService from "./cloudService.js";
 
 export default class FileService {
     private static readonly _filePath: string = "../config.json"
@@ -24,6 +25,36 @@ export default class FileService {
             }
             fileUtil.writeFile(filePath, file)
             return new Response(200, `Successfully uploaded ${name}.`)
+        } catch (err) {
+            throw err
+        }
+    }
+
+    public createDirectory = async (path: string, folderName: string, cloudName: string) => {
+        try {
+            const configData = await fileUtil.getConfigData(FileService._filePath)
+            for (const [i, cloud] of configData.clouds.entries()) {
+                if (cloud.name == cloudName) {
+                    fileUtil.createDirectory(cloud.path + "/" + path, folderName)
+                    return new Response(200, `Successfully created directory ${folderName}`)
+                }
+            }
+            return new Response(404, `Err`)
+        } catch (err) {
+            throw err
+        }
+    }
+
+    public deleteFile = async (cloudName: string, fileName: string) => {
+        try {
+            const configData = await fileUtil.getConfigData(FileService._filePath)
+            for (const [i, cloud] of configData.clouds.entries()) {
+                if (cloud.name == cloudName) {
+                    fileUtil.deleteFile(cloud.path, fileName)
+                    return new Response(200, `Successfully deleted ${fileName}`)
+                }
+            }
+            return new Response(404, `File with name ${fileName} not found`)
         } catch (err) {
             throw err
         }

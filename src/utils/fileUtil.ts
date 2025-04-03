@@ -10,12 +10,20 @@ class FileUtil {
         fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8")
     }
 
+    public createDirectory = (path:string, name: string) => {
+        fs.mkdirSync(path + "/" + name)
+    }
+
     public readFiles = (filePath: string) => {
         return this.convertToDto(fs.readdirSync(filePath), filePath)
     }
 
     public writeFile = (filePath: string, data: any) => {
         return fs.writeFileSync(filePath + `/${data.name}`, data.data, "utf-8")
+    }
+
+    public deleteFile = (path: string, name: string) => {
+        return fs.rmSync(path + "/" + name)
     }
 
     private convertToDto(files: string[], mainPath: string) {

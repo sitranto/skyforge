@@ -1,4 +1,5 @@
 import FileService from "../service/fileService.js"
+import fileUtil from "../utils/fileUtil.js";
 
 export default class FileController {
     private static readonly fileService = new FileService()
@@ -19,5 +20,18 @@ export default class FileController {
         }
         await FileController.fileService.uploadFile(req.params.name, files.file)
         res.status(200).send("Successfully uploaded file")
+    }
+
+    // Создание папки
+    public async createFolder(req: any, res: any) {
+        const { body } = req
+        const response = await FileController.fileService.createDirectory(body.path, body.folderName, req.params.name)
+        res.status(response.status).send(response.message)
+    }
+
+    // Удаление файла
+    public async deleteFile(req: any, res: any) {
+        const response = await FileController.fileService.deleteFile(req.params.name, req.params.file)
+        res.status(response.status).send(response.message)
     }
 }
