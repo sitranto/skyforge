@@ -9,9 +9,19 @@ import ModalUploadFile from "@/app/components/forSlugClouds/Modal/modalAddFile";
 import http from "@/app/actions/http";
 
 export default function Dashboard() {
+    const [fileStructure, setFileStructure] = useState({});
     const [viewMode, setViewMode] = useState("grid");
     const [currentPath, setCurrentPath] = useState("/");
     const [expandedFolders, setExpandedFolders] = useState({});
+
+    useEffect(() => {
+        fetchFileStructure();
+    }, []);
+
+    const fetchFileStructure = async () => {
+        const data = await http.getCloudData("test1");
+        setFileStructure(data);
+    };
 
     const toggleFolder = (path) => setExpandedFolders((prev) => ({...prev, [path]: !prev[path]}));
 
@@ -29,13 +39,13 @@ export default function Dashboard() {
                     viewMode={viewMode}
                     setViewMode={setViewMode}
                     setCurrentPath={setCurrentPath}
+                    refreshData={fetchFileStructure}
                 />
             </div>
         </div>
     );
 }
 
-//const fileStructure = await http.getCloudData("test1")
 const fileStructure = {
     "/": [
         {path: "/projects", name: "projects", type: "folder"},
@@ -180,7 +190,7 @@ function FileItem({file, setCurrentPath, expandedFolders, toggleFolder}) {
 }
 
 //Главный вывод
-function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
+function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath, refreshData}) {
     const [menuVisible, setMenuVisible] = useState(false);
     const [fileMenuVisible, setFileMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({x: 0, y: 0});
@@ -270,6 +280,7 @@ function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
                             isOpen={modalMenu === 1}
                             onClose={() => setModalMenu(0)}
                             path={currentPath}
+                            refreshData={refreshData}
                         />
                     )}
 
@@ -278,6 +289,7 @@ function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
                             isOpen={modalMenu === 2}
                             onClose={() => setModalMenu(0)}
                             path={currentPath}
+                            refreshData={refreshData}
                         />
                     )}
 
@@ -331,7 +343,8 @@ function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath}) {
                     menuPosition={filePosition}
                     setMenuVisible={setFileMenuVisible}
                     filePath={contextFile.path}  // Передаем путь файла
-                    fileName={contextFile.name}  // Передаем имя файла
+                    fileName={contextFile.name}
+                    refreshData={refreshData}// Передаем имя файла
                 />
 
             )}

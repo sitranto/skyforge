@@ -4,9 +4,10 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     path: string;
+    refreshData: () => void
 }
 
-const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
+const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path, refreshData }) => {
     const [name, setName] = useState("");
 
     if (!isOpen) return null;

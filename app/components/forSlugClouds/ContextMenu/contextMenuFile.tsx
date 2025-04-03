@@ -7,9 +7,10 @@ interface ContextMenuProps {
     setMenuVisible: React.Dispatch<React.SetStateAction<boolean>>;
     filePath: string;
     fileName: string;
+    refreshData: () => void
 }
 
-const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPosition, setMenuVisible, filePath, fileName }, ref) => {
+const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPosition, setMenuVisible, filePath, fileName, refreshData }, ref) => {
     return (
         <ul
             ref={ref}
@@ -30,9 +31,10 @@ const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPo
             </li>
             <li
                 className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-400 cursor-pointer"
-                onClick={() => {
-                    getCloudName()
-                    http.deleteFile(getCloudName(), fileName)
+                onClick={ async () => {
+                    const cloudName = getCloudName()
+                    await http.deleteFile(cloudName, fileName)
+                    refreshData()
                     setMenuVisible(false);
                 }}
             >

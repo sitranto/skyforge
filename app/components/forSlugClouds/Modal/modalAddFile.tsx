@@ -5,9 +5,10 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     path: string;
+    refreshData: () => void
 }
 
-const ModalUploadFile: React.FC<ModalProps> = ({isOpen, onClose, path}) => {
+const ModalUploadFile: React.FC<ModalProps> = ({isOpen, onClose, path, refreshData}) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState("не завершена");
@@ -29,7 +30,10 @@ const ModalUploadFile: React.FC<ModalProps> = ({isOpen, onClose, path}) => {
         if (!file) return;
         setUploading(true);
         await http.uploadFile(getCloudName(), file)
-            .finally(() => setProgress("Завершена"))
+            .finally(() => {
+                refreshData()
+                setProgress("Завершена")
+            })
     };
 
     return (
