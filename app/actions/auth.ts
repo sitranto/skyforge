@@ -1,5 +1,5 @@
-import {redirect} from "next/navigation";
+import http from "@/app/actions/http"
 
-export async function signIn() {
-    redirect("/clouds")
+export async function signIn({ name, password }) {
+    return await http.login(name, password)
 }
