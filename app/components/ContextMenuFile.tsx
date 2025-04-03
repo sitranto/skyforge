@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { ArrowDownToLine, Trash } from "lucide-react";
+import http from "@/app/actions/http";
 
 interface ContextMenuProps {
     menuPosition: { x: number; y: number };
@@ -21,7 +22,7 @@ const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPo
             <li
                 className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-400 cursor-pointer"
                 onClick={() => {
-                    alert(`Скачать файл: ${fileName}`);
+                    getFile({filePath, fileName})
                     setMenuVisible(false);
                 }}
             >
@@ -30,7 +31,8 @@ const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPo
             <li
                 className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-400 cursor-pointer"
                 onClick={() => {
-                    alert(`Удалить файл: ${fileName}`);
+                    getCloudName()
+                    http.deleteFile(getCloudName(), fileName)
                     setMenuVisible(false);
                 }}
             >
@@ -39,5 +41,22 @@ const ContextMenuFile = forwardRef<HTMLUListElement, ContextMenuProps>(({ menuPo
         </ul>
     );
 });
+
+const getFile = ({filePath, fileName}) => {
+    fetch(`http://127.0.0.1:8080${filePath}`,)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = fileName
+            a.click()
+        })
+}
+
+const getCloudName = () => {
+    const url = window.location.href.split("/")
+    return url[url.length - 1]
+}
 
 export default ContextMenuFile;

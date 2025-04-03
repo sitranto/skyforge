@@ -33,8 +33,8 @@ export default function Dashboard() {
     );
 }
 
-//const fileStructure = await http.getCloudData("test1")
-const fileStructure = {
+const fileStructure = await http.getCloudData("test1")
+/*const fileStructure = {
     "/": [
         {path: "/projects", name: "projects", type: "folder"},
         {path: "/documents", name: "documents", type: "folder"},
@@ -87,7 +87,7 @@ const fileStructure = {
         {path: "/pictures/screenshots/screen1.png", name: "screen1.png", type: "file"},
         {path: "/pictures/screenshots/screen2.png", name: "screen2.png", type: "file"}
     ]
-};
+};*/
 
 function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
     const parentPath = currentPath === "/" ? "/" : currentPath.substring(0, currentPath.lastIndexOf("/")) || "/";
