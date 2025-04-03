@@ -5,9 +5,10 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     path: string;
+    refreshData: () => void
 }
 
-const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
+const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path, refreshData }) => {
     const [folderName, setFolderName] = useState("");
 
     const getCloudName = () => {
@@ -34,6 +35,7 @@ const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
                     <button className="bg-indigo-600 text-white px-4 py-2 rounded"
                             onClick={async () => {
                                 await http.createFolder(getCloudName(), path, folderName)
+                                refreshData()
                                 onClose();
                             }}>
                         Создать

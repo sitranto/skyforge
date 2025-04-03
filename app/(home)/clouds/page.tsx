@@ -3,14 +3,24 @@
 import http from "@/app/actions/http"
 import Link from "next/link";
 import {SquarePlus} from "lucide-react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ModalCreateClouds from "@/app/components/clouds/modalCreateClouds";
 
 export default function CloudPage() {
     const [open, setOpen] = useState(false);
+    const [clouds, setClouds] = useState({});
 
     const handleOpenAdd = () => {
         setOpen(true);
+    };
+
+    useEffect(() => {
+        fetchCloudStructure();
+    }, []);
+
+    const fetchCloudStructure = async () => {
+        const data = await http.getAllClouds();
+        setClouds(data);
     };
 
     return (
@@ -25,12 +35,13 @@ export default function CloudPage() {
             <ModalCreateClouds
                 isOpen={open}
                 onClose={() => setOpen(false)}
+                refreshClouds={fetchCloudStructure}
             />
         </div>
     )
 }
 
-//const testObject = await http.getAllClouds()
+
 const testObject = [
     {name: "test1"},
 ]

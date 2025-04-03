@@ -4,9 +4,10 @@ import http from "@/app/actions/http";
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
+    refreshClouds: () => void;
 }
 
-const ModalCreateClouds: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ModalCreateClouds: React.FC<ModalProps> = ({ isOpen, onClose, refreshClouds }) => {
     const [name, setName] = useState("");
     const [path, setPath] = useState("");
 
@@ -35,6 +36,7 @@ const ModalCreateClouds: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     <button className="bg-indigo-600 text-white px-4 py-2 rounded"
                             onClick={async () => {
                                 await http.createCloud(name, path).catch((err: Error) => {console.log(err)})
+                                refreshClouds()
                                 onClose();
                             }}>
                         Создать
