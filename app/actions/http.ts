@@ -18,13 +18,19 @@ class Http {
         formData.append('file', file);
         return await axios.post(
             `http://localhost:3001/api/clouds/${name}/files`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: { 'Content-Type': 'multipart/form-data', 'enctype': 'multipart/form-data', 'charset': 'UTF-8' },
             },
             )
     }
 
     public deleteFile = async (name: string, file: string) => {
         return await axios.delete(`http://localhost:3001/api/clouds/${name}/files/${file}`).then((res) => {
+            return res.data
+        })
+    }
+
+    public login = async (name: string, password: string)=> {
+        return await axios.post(`http://localhost:3001/api/auth/login`, {username: name, password: password}).then((res) => {
             return res.data
         })
     }
