@@ -32,7 +32,10 @@ export default function CloudPage() {
     const handleDeleteSelected = async () => {
         if (selectedClouds.length > 0) {
             try {
-                fetchCloudStructure();
+                for (const item of selectedClouds) {
+                    await http.deleteCloud(item)
+                }
+                await fetchCloudStructure();
                 setSelectedClouds([]);
             } catch (error) {
                 console.error("Нет выделенных облаков:", error);

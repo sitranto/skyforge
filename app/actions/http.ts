@@ -46,6 +46,12 @@ class Http {
             return res.data
         })
     }
+
+    public deleteCloud = async (name: string) => {
+        return await axios.delete(`http://localhost:3001/api/clouds/${name}`).then((res) => {
+            return res.data
+        })
+    }
 }
 
 export default new Http()
