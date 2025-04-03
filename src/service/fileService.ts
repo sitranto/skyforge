@@ -1,6 +1,5 @@
 import fileUtil from "../utils/fileUtil.js"
 import Response from "../model/response.js"
-import CloudService from "./cloudService.js";
 
 export default class FileService {
     private static readonly _filePath: string = "../config.json"

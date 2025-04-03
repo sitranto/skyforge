@@ -1,5 +1,6 @@
 import fileUtil from "../utils/fileUtil.js"
 import Response from "../model/response.js";
+import { exec } from "child_process"
 
 export default class CloudService {
     private static readonly _filePath: string = "../config.json"
@@ -31,11 +32,20 @@ export default class CloudService {
             const isCloudAlreadyExists = await this.getOneCloud(name)
             if (isCloudAlreadyExists.status == 404) {
                 const data = await fileUtil.getConfigData(CloudService._filePath)
+                let port
+                try {
+                    port = data.clouds[data.clouds.length - 1].port + 1
+                } catch {
+                    port = 8080
+                }
                 await data.clouds.push({
                     "name": name,
-                    "path": path
+                    "path": path,
+                    "port": port,
                 })
                 fileUtil.rewriteConfig(CloudService._filePath, data)
+                exec(`cd ${path}\nhttp-server ./ -p ${port} --cors`)
+
                 return new Response(200, `Successfully created new cloud ${name}`)
             }
             return new Response(403, `Cloud with name ${name} already exists`)

@@ -26,6 +26,17 @@ class FileUtil {
         return fs.rmSync(path + "/" + name)
     }
 
+    public generateBash = async (path: string, port: number) => {
+        const writeFile = async () => {
+            fs.writeFileSync(path + "/hostingCloud.bash", `cd ${path}\nhttp-server ./ -p ${port} --cors`, {flag: "a+"})
+        }
+        await writeFile()
+            .finally(() => {
+                fs.chmodSync(path + "/hostingCloud.bash", 777)
+            })
+
+    }
+
     private convertToDto(files: string[], mainPath: string) {
         const fileStructure: FileStructure = {};
 

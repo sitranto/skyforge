@@ -4,7 +4,8 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "shelljs": "^0.9.2"
   },
   "type": "module",
   "devDependencies": {
