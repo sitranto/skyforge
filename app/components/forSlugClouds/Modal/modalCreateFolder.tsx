@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import http from "@/app/actions/http";
 
 interface ModalProps {
     isOpen: boolean;
@@ -7,7 +8,12 @@ interface ModalProps {
 }
 
 const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
-    const [name, setName] = useState("");
+    const [folderName, setFolderName] = useState("");
+
+    const getCloudName = () => {
+        const url = window.location.href.split("/")
+        return url[url.length - 1]
+    }
 
     if (!isOpen) return null;
 
@@ -18,16 +24,16 @@ const ModalCreateFolder: React.FC<ModalProps> = ({ isOpen, onClose, path }) => {
                 <input
                     type="text"
                     className="border p-2 w-full mt-2"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={folderName}
+                    onChange={(e) => setFolderName(e.target.value)}
                     placeholder="Название папки" />
                 <div className="flex justify-end gap-2 mt-4">
                     <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={onClose}>
                         Закрыть
                     </button>
                     <button className="bg-indigo-600 text-white px-4 py-2 rounded"
-                            onClick={() => {
-                                console.log(`Создание папки "${name}" в ${path}`);
+                            onClick={async () => {
+                                await http.createFolder(getCloudName(), path, folderName)
                                 onClose();
                             }}>
                         Создать

@@ -1,6 +1,12 @@
 import axios from "axios"
 
 class Http {
+    public createCloud = async (name: string, path: string)=> {
+        return await axios.post("http://localhost:3001/api/clouds", { name: name, path: path }).then((res) => {
+            return res.data
+        })
+    }
+
     public getAllClouds = async () => {
         return await axios.get("http://localhost:3001/api/clouds").then((res) => {
             return res.data
@@ -31,6 +37,12 @@ class Http {
 
     public login = async (name: string, password: string)=> {
         return await axios.post(`http://localhost:3001/api/auth/login`, {username: name, password: password}).then((res) => {
+            return res.data
+        })
+    }
+
+    public createFolder = async (name: string, folderPath: string, folderName: string) => {
+        return await axios.post(`http://localhost:3001/api/clouds/${name}/files/folder`, {path: folderPath, folderName: folderName}).then((res) => {
             return res.data
         })
     }
