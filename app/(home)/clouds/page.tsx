@@ -14,7 +14,10 @@ export default function CloudPage() {
     )
 }
 
-const testObject = await http.getAllClouds()
+//const testObject = await http.getAllClouds()
+const testObject = [
+    {name: "test1"},
+]
 
 const CloudList = (data) => {
     const listItems = data.map(item =>
