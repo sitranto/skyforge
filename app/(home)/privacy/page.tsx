@@ -3,9 +3,16 @@
 import http from "@/app/actions/http";
 import Link from "next/link";
 import { useState } from "react";
+import {SquarePlus} from "lucide-react";
+import ModalCreateUser from "@/app/components/privacy/modalCreateUser";
 
-export default function CloudPage() {
+export default function UserPage() {
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+    const [open, setOpen] = useState(false);
+
+    const handleOpenAdd = () => {
+        setOpen(true);
+    };
 
     const handleSelectUser = (userName: string) => {
         setSelectedUsers((prev) =>
@@ -23,7 +30,7 @@ export default function CloudPage() {
     };
 
     return (
-        <div className="w-8/12 h-10/12 m-0 m-auto flex stretch border-2 border-indigo-600 rounded-xl">
+        <div className="w-8/12 h-10/12 m-auto flex stretch border-2 border-indigo-600 rounded-xl">
             <div className="w-full">
                 {/* Меню управления */}
                 <div className="flex justify-between items-center p-3 border-b-2 border-indigo-600 mb-3">
@@ -50,9 +57,13 @@ export default function CloudPage() {
                     [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300
                     dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-                    {CloudList(testObject, selectedUsers, handleSelectUser)}
+                    {CloudList(testObject, selectedUsers, handleSelectUser, handleOpenAdd)}
                 </div>
             </div>
+            <ModalCreateUser
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
         </div>
     );
 }
@@ -65,7 +76,8 @@ const testObject = [
 const CloudList = (
     data: { name: string }[],
     selectedUsers: string[],
-    handleSelectUser: (userName: string) => void
+    handleSelectUser: (userName: string) => void,
+    handledOpenAdd: () => void
 ) => {
     const listItems = data.map((item) => (
         <li
@@ -87,5 +99,12 @@ const CloudList = (
         </li>
     ));
 
-    return <ul className="w-11/12 mx-auto">{listItems}</ul>;
+    return <ul className="w-11/12 mx-auto">
+        {listItems}
+        <li onClick={() =>  handledOpenAdd()}
+            className="mt-2 mb-5 w-full p-2 rounded-lg transition-all duration-200 hover:bg-gray-500 hover:text-white hover:scale-102">
+            <SquarePlus size={16} className="mb-1"/>
+            <div className="border-2 border-b border-indigo-600 w-full"/>
+        </li>
+    </ul>;
 };
