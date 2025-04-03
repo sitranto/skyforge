@@ -9,7 +9,7 @@ import ModalUploadFile from "@/app/components/forSlugClouds/Modal/modalAddFile";
 import http from "@/app/actions/http";
 
 export default function Dashboard() {
-    const [fileStructure, setFileStructure] = useState({});
+    const [fileStructure, setFileStructure] = useState({"/": []});
     const [viewMode, setViewMode] = useState("grid");
     const [currentPath, setCurrentPath] = useState("/");
     const [expandedFolders, setExpandedFolders] = useState({});
@@ -19,7 +19,7 @@ export default function Dashboard() {
     }, []);
 
     const fetchFileStructure = async () => {
-        const data = await http.getCloudData("test1");
+        const data = await http.getCloudData(getCloudName());
         setFileStructure(data);
     };
 
@@ -33,6 +33,7 @@ export default function Dashboard() {
                     setCurrentPath={setCurrentPath}
                     expandedFolders={expandedFolders}
                     toggleFolder={toggleFolder}
+                    fileStructure={fileStructure}
                 />
                 <FileViewer
                     currentPath={currentPath}
@@ -40,13 +41,19 @@ export default function Dashboard() {
                     setViewMode={setViewMode}
                     setCurrentPath={setCurrentPath}
                     refreshData={fetchFileStructure}
+                    fileStructure={fileStructure}
                 />
             </div>
         </div>
     );
 }
 
-const fileStructure = {
+const getCloudName = () => {
+    const url = window.location.href.split("/")
+    return url[url.length - 1]
+}
+
+/*const fileStructure = {
     "/": [
         {path: "/projects", name: "projects", type: "folder"},
         {path: "/documents", name: "documents", type: "folder"},
@@ -99,9 +106,9 @@ const fileStructure = {
         {path: "/pictures/screenshots/screen1.png", name: "screen1.png", type: "file"},
         {path: "/pictures/screenshots/screen2.png", name: "screen2.png", type: "file"}
     ]
-};
+};*/
 
-function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
+function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder, fileStructure}) {
     const parentPath = currentPath === "/" ? "/" : currentPath.substring(0, currentPath.lastIndexOf("/")) || "/";
 
     return (
@@ -126,7 +133,8 @@ function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
                 <ul className="flex flex-col gap-2">
                     {fileStructure["/"].map((file) => (
                         <FileItem key={file.path} file={file} setCurrentPath={setCurrentPath}
-                                  expandedFolders={expandedFolders} toggleFolder={toggleFolder}/>
+                                  expandedFolders={expandedFolders} toggleFolder={toggleFolder}
+                                  fileStructure={fileStructure}/>
                     ))}
                 </ul>
             </div>
@@ -134,7 +142,7 @@ function Sidebar({currentPath, setCurrentPath, expandedFolders, toggleFolder}) {
     );
 }
 
-function FileItem({file, setCurrentPath, expandedFolders, toggleFolder}) {
+function FileItem({file, setCurrentPath, expandedFolders, toggleFolder, fileStructure}) {
     return (
         <div>
             <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 cursor-pointer">
@@ -181,6 +189,7 @@ function FileItem({file, setCurrentPath, expandedFolders, toggleFolder}) {
                             setCurrentPath={setCurrentPath}
                             expandedFolders={expandedFolders}
                             toggleFolder={toggleFolder}
+                            fileStructure={fileStructure}
                         />
                     ))}
                 </ul>
@@ -190,7 +199,7 @@ function FileItem({file, setCurrentPath, expandedFolders, toggleFolder}) {
 }
 
 //Главный вывод
-function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath, refreshData}) {
+function FileViewer({currentPath, viewMode, setViewMode, setCurrentPath, refreshData, fileStructure}) {
     const [menuVisible, setMenuVisible] = useState(false);
     const [fileMenuVisible, setFileMenuVisible] = useState(false);
     const [menuPosition, setMenuPosition] = useState({x: 0, y: 0});
